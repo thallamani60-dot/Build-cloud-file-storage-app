@@ -1,0 +1,13 @@
+# Optional read-only host AWS profile mount for local Docker development.
+# Set AWS_CONFIG_DIR to the host's .aws directory before using this override.
+services:
+  api:
+    environment:
+      AWS_PROFILE: ${AWS_PROFILE:-default}
+      AWS_SHARED_CREDENTIALS_FILE: /home/appuser/.aws/credentials
+      AWS_CONFIG_FILE: /home/appuser/.aws/config
+    volumes:
+      - type: bind
+        source: ${AWS_CONFIG_DIR:?Set AWS_CONFIG_DIR to your host .aws directory}
+        target: /home/appuser/.aws
+        read_only: true
